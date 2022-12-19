@@ -7,8 +7,19 @@ const loader = document.getElementById("loader");
 
 let apiQuotes = [];
 
+const showLoader = () => {
+  loader.hidden = false;
+  quoteContainer.hidden = true;
+};
+
+const hideLoader = () => {
+  quoteContainer.hidden = false;
+  loader.hidden = true;
+};
+
 // Show new quotes
 const newQuote = () => {
+  // showloader(); removed as it was causing loader to continually load
   //   Pick a random quote from apiQuotes array
   const quote = apiQuotes[Math.floor(Math.random() * apiQuotes.length)];
   //   Check if author field is black and replaceit with "Unknown"
@@ -23,11 +34,14 @@ const newQuote = () => {
   } else {
     quoteText.classList.remove("long-quote");
   }
+  // Set Quote, Hide Loader
   quoteText.textContent = quote.text;
+  hideLoader();
 };
 
 // Get Quotes from API
 async function getQuotes() {
+  showLoader();
   const apiUrl = "https://jacintodesign.github.io/quotes-api/data/quotes.json";
   try {
     const response = await fetch(apiUrl);
